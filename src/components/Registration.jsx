@@ -6,6 +6,7 @@ import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
 import { ColorRing } from 'react-loader-spinner'
 import { RegistrationRequest } from '../Api/Api';
+
 const Registration = () => {
 
    const  [firstName, setFirstName] = useState("");
@@ -30,7 +31,7 @@ const Registration = () => {
     }
 
       // email regex
-      var regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    //   var regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 
 
@@ -66,9 +67,9 @@ const handleRegistration = (e) => {
         setLastNameError("Please Enter your Last Name");
     }
 
-    if(!email.match(regex)){
-        setEmailError("Invalid Email");
-    }
+    // if(!email.match(regex)){
+    //     setEmailError("Invalid Email");
+    // }
 
 
     if(email === ""){
@@ -80,10 +81,13 @@ const handleRegistration = (e) => {
     if(confirmPassword === ""){
         setConfirmPasswordError("Please Enter your Confirm Password");
     }
+    if(password !== confirmPassword){
+        setConfirmPasswordError("Password does not match");
+    }
   
    
     if (
-         firstName !== "" && lastName !==  "" && email !== "" && password !== "" && confirmPassword !== "")  { 
+         firstName !== "" && lastName !==  "" && email !== "" && password !== "" && confirmPassword !== "" && password === confirmPassword)  { 
             setLoading(true);
             let profilePic= "https://i.ibb.co/9hBCKDj/66250e5096b2e756b1c8184676ab46e9.jpg" 
             RegistrationRequest(firstName, lastName, email, password, profilePic)
@@ -95,11 +99,13 @@ const handleRegistration = (e) => {
                 else{
                     setEmailError("Email Already Exists");
                     setLoading(false);
-                    console.log("Something went wrong");
+                    
                 }
+                console.log(firstName, lastName, email, password, confirmPassword);
+       
                 
             })
-       
+            
     }
 }
 
@@ -121,7 +127,7 @@ const handleRegistration = (e) => {
                        <p className='text-black my-1 '>{firstNameError}</p>
                        <input onChange={handleLastName} className='w-full p-2 my-2 text-black  font-bold font-roboto outline-none border-primary border rounded-lg' type="text" placeholder='Enter your Last Name' />
                        <p className='text-black my-1 '>{lastNameError}</p>
-                        <input onChange={handleEmail} className='w-full p-2 text-black e font-bold font-roboto my-2 outline-none border-primary border rounded-lg' type="email" placeholder='Enter your Email' />
+                        <input onChange={handleEmail} className='w-full p-2 text-black  font-bold font-roboto my-2 outline-none border-primary border rounded-lg' type="email" placeholder='Enter your Email' />
                         <p className='text-black my-1 '>{emailError}</p>
 
                         <div className='relative'>
@@ -132,19 +138,20 @@ const handleRegistration = (e) => {
                             <IoMdEyeOff onClick={togglePassword} className='absolute top-1/2 right-5  text-2xl transform -translate-y-1/2 cursor-pointer text-primary' ></IoMdEyeOff>
                             }
 
-                        <input onChange={handlePassword} className='w-full border text-black capitalize font-bold font-roboto px-2 border-secondary rounded-lg py-2 my-2 ' type={showPassword ? "text" : "password"} placeholder='Enter your Password' />
+                        <input onChange={handlePassword} className='w-full border text-black  font-bold font-roboto px-2 border-secondary rounded-lg py-2 my-2 ' type={showPassword ? "text" : "password"} placeholder='Enter your Password' />
                         </div>
                         <p className='text-black my-1 '>{passwordError}</p>
-                        <input onChange={handleConfirmPassword} className='w-full p-2 my-2 text-black capitalize font-bold font-roboto outline-none border-primary border rounded-lg' type="password" placeholder='Enter your Confirm Password' />
+                        <input onChange={handleConfirmPassword} className='w-full p-2 my-2 text-black font-bold font-roboto outline-none border-primary border rounded-lg' type="password" placeholder='Enter your Confirm Password' />
                         <p className='text-black my-1 '>{confirmPasswordError}</p>
 
-                        {
+                     {
                             loading?
                             <div className='flex justify-center mt-2 '><ColorRing></ColorRing></div>
                             :
                             <button type='submit' className='bg-quaternary text-white py-2 mt-2 text-center text-lg w-full font-roboto font-semibold rounded-lg transition-all duration-75 hover:bg-primary'>Register</button>
                             }
                       <p className=' text-septenary font-bold text-base font-roboto mt-2'> Created account? <Link to="/login" className='text-yellow-500 font-bold font-roboto font-lg'>Login</Link></p>
+                      <Link to="/forgot-password"><p className='text-white mt-2  font-bold inline-block font-roboto font-lg'>Forgot Password?</p></Link>
 
                     </form>
                 </div>

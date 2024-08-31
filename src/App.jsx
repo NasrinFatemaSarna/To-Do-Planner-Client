@@ -24,10 +24,10 @@ function App() {
         <Route path="/Registration" element={<RegistrationPage/>}></ Route>
         <Route path="/profile" element={<ProfilePage/>}></Route>
 
-        <Route path="/new-plan" element={<CreateTodoPage/>}></Route>
+        <Route path="/create-plan" element={<CreateTodoPage/>}></Route>
         <Route path="/progress-plan" element={<ProgressTodoPage/>}></Route>
         <Route path="/completed-plan" element={<CompletedTodoPage/>}></Route>
-        <Route path="/todo-plan/" element={<NewTodoPage/>}></Route>
+        <Route path="/new-plan" element={<NewTodoPage/>}></Route>
         <Route path="/canceled-plan" element={<CanceledTodoPage/>}></Route>
          
        
@@ -41,6 +41,12 @@ function App() {
 }
 
 export default App
+
+
+// api link
+// https://to-d0-planner-server.onrender.com/.....
+//  
+
 
 
 // api link

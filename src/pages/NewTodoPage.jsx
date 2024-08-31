@@ -5,17 +5,17 @@ import MainLayout from "../layout/MainLayout";
 
 
 const NewTodoPage = () => {
-    const NewTodo = lazy(() => import('../components/NewTodo'));
+    const Todos = lazy(() => import('../components/Todos'));
     return (
 
       <div>
             <MainLayout>
             <Suspense fallback={<Loader />}>
-            < NewTodo/>
+            < Todos/>
         </Suspense>
             </MainLayout>
         </div>
     );
 };
 
-export default NewTodoPage;
+export default NewTodoPage ;

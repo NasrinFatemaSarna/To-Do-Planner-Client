@@ -1,22 +1,26 @@
 import  { useState } from 'react'
 import Lottie from "lottie-react";
 import loginAni from "../../public/animation/login2.json";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoEye } from "react-icons/io5";
 import { IoMdEyeOff } from "react-icons/io";
+
+import { ColorRing } from 'react-loader-spinner'
+import { LoginRequest } from '../Api/Api';
 
 const Login = () => {
 
    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-   
-
 
     const[emailError, setEmailError] = useState(false);
     const[passwordError, setPasswordError] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
+    let [loading, setLoading] = useState(false);
+    let navigate = useNavigate();
+ 
    
     const togglePassword = () => {
         setShowPassword(!showPassword);
@@ -52,14 +56,42 @@ const handleLogin = (e) => {
     if(password === ""){
         setPasswordError("Please Enter your Password");
     }
+
   
    
     if (
-         email !== "" && password !==  "" && password ) 
-        { alert("Login Successful");
-       
-    }
+         email !== "" && password !==  "" && password ) {
+            setLoading(true);
+            // console.log("email",email,"password",password)
+          LoginRequest(email, password)
+          .then((response) => {
+            if(response===true){
+                setLoading(false);
+                // navigate("/");
+                window.location.href="/";
+
+            }
+            
+             else{
+                setLoading(false);
+                if(response.massage === "user not found"){
+                    setEmailError("user not found");
+             }
+              if(response.massage === "wrong password"){
+                setPasswordError("wrong password");
+             }
+            }
+             
+             
+ 
+             })
+            
+          
+    
 }
+}
+
+
 
 
 
@@ -76,7 +108,7 @@ const handleLogin = (e) => {
                 <form className=' bg-quaternary border-lg p-8 px-4' onSubmit={handleLogin}>
                     <h1 className='text-4xl text-septenary font-roboto font-bold text-center mb-4'>Login</h1>
                        
-                        <input onChange={handleEmail} className='w-full capitalize text-black font-roboto font-bold p-2 my-2 outline-none border-primary border rounded-lg' type="email" placeholder='Enter your Email' />
+                        <input onChange={handleEmail} className='w-full  text-black font-roboto font-bold p-2 my-2 outline-none border-primary border rounded-lg' type="email" placeholder='Enter your Email' />
                         <p className='text-black my-1 '>{emailError}</p>
 
                         <div className='relative'>
@@ -89,13 +121,16 @@ const handleLogin = (e) => {
 
                         <input onChange={handlePassword} className='w-full border capitalize text-black font-roboto font-bold px-2 border-secondary rounded-lg py-2 my-2 ' type={showPassword ? "text" : "password"} placeholder='Enter your Password' />
                         </div>
-
-
-                
                         <p className='text-black my-1 '>{passwordError}</p>
-                      
-                        <button type='submit' className='bg-septenary text-secondary hover:text-white py-2 mt-3 text-center text-lg w-full font-roboto font-semibold rounded-lg transition-all duration-75 hover:bg-primary'>Login</button>
-                        <p className='mt-5 font-bold text-base font-roboto'> Don't have an account? <Link to="/registration" className='text-yellow-400 font-bold font-roboto font-lg'>Registration</Link></p>
+
+                        {
+                            loading?
+                            <div className='flex justify-center mt-2 '><ColorRing></ColorRing></div>
+                            :
+                            <button type="submit" className='w-full bg-primary text-septenary font-roboto font-bold p-2 my-2 rounded-lg'>Login</button>
+                            }
+                             <p className='mt-5 font-bold text-base font-roboto'> Don't have an account? <Link to="/registration" className='text-yellow-400 font-bold font-roboto font-lg'>Registration</Link></p>
+                             <Link to="/forgot-password"><p className='text-black mt-2 inline-block font-bold font-roboto font-lg'>Forgot Password?</p></Link>
 
                     </form>
                     
